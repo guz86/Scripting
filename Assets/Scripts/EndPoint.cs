@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class EndPoint : MonoBehaviour
 {
     [SerializeField] private Color _reachedColor;

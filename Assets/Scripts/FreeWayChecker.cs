@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class FreeWayChecker : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -8,7 +9,7 @@ public class FreeWayChecker : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private RaycastHit2D[] _results = new RaycastHit2D[1];
 
-    private void Start()
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LineInstantiate : MonoBehaviour
@@ -7,8 +5,6 @@ public class LineInstantiate : MonoBehaviour
     [SerializeField] private GameObject _template;
     [SerializeField] private int _count;
     [SerializeField] private int _length;
-    
-    
 
     private void Start()
     {
@@ -17,8 +13,7 @@ public class LineInstantiate : MonoBehaviour
             int step = _length / _count;
             GameObject newObject = Instantiate(_template, Vector3.zero, Quaternion.identity);
             Transform transformNewObject = newObject.GetComponent<Transform>();
-            transformNewObject.position = new Vector3( step * i, 1, 0);
+            transformNewObject.position = new Vector3(step * i, 1, 0);
         }
-        
     }
 }
