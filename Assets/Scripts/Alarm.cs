@@ -26,40 +26,29 @@ public class Alarm : MonoBehaviour
         if (_alarmSound.isPlaying)
         {
             _targetVolume = 0f;
-            _coroutine = StartCoroutine(ExitAlarm());
+            _coroutine = StartCoroutine(PlayAlarm());
         }
         else
         {
-            if (!_alarmSound.isPlaying) _alarmSound.Play();
-            
             _targetVolume = 1f;
-            _coroutine = StartCoroutine(EnterAlarm());
+            _coroutine = StartCoroutine(PlayAlarm());
         }
     }
 
-    private IEnumerator EnterAlarm()
+    private IEnumerator PlayAlarm()
     {
+        // SrartAlarm
+        if (!_alarmSound.isPlaying) _alarmSound.Play();
+        
         while (Math.Abs(_alarmSound.volume - _targetVolume) > 0.001f)
         {
             _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, _targetVolume,
                 _delta);
             yield return null;
         }
-
         _alarmSound.volume = _targetVolume;
-    }
-
-    private IEnumerator ExitAlarm()
-    {
-        while (Math.Abs(_alarmSound.volume - _targetVolume) > 0.001f)
-        {
-            _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, _targetVolume,
-                _delta);
-            yield return null;
-        }
-
-        _alarmSound.volume = _targetVolume;
-
-        if (_alarmSound.isPlaying) _alarmSound.Stop();
+        
+        // ExitAlarm
+        if (_alarmSound.volume == 0 && _alarmSound.isPlaying) _alarmSound.Stop();
     }
 }
