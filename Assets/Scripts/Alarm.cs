@@ -1,89 +1,65 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 public class Alarm : MonoBehaviour
 {
-    [SerializeField] private float _delta;
-    [SerializeField] private float _runningTime;
     [SerializeField] private float _duration;
-    [SerializeField] private float _startVolume;
-    [SerializeField] private float _targetVolume;
+
     private Coroutine _coroutine;
-
     private AudioSource _alarmSound;
-
+    private float _targetVolume;
+    private float _delta;
 
     private void Start()
     {
         _alarmSound = GetComponent<AudioSource>();
+        _alarmSound.volume = 0;
+        _delta = Time.deltaTime / _duration;
     }
 
     public void StartAlarm()
     {
+        if (_coroutine != null) StopCoroutine(_coroutine);
+        
         if (_alarmSound.isPlaying)
         {
-            Debug.Log(" _alarmSound.isPlaying ");
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-            }
+            _targetVolume = 0f;
             _coroutine = StartCoroutine(ExitAlarm());
-            
         }
         else
         {
-            Debug.Log("! _alarmSound.isPlaying ");
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-            }
+            if (!_alarmSound.isPlaying) _alarmSound.Play();
+            
+            _targetVolume = 1f;
             _coroutine = StartCoroutine(EnterAlarm());
         }
     }
 
     private IEnumerator EnterAlarm()
     {
-        Debug.Log("EnterAlarm()");
-        _alarmSound.volume = 0;
-        _runningTime = 0;
-
-        
-        if (!_alarmSound.isPlaying)
+        while (Math.Abs(_alarmSound.volume - _targetVolume) > 0.001f)
         {
-            _alarmSound.Play();
-        }
-        
-        while (_runningTime <= _duration)
-        {
-            _runningTime += Time.deltaTime;
-            float _delta = _runningTime / _duration;
-            _alarmSound.volume = Mathf.MoveTowards(_startVolume, _targetVolume,
+            _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, _targetVolume,
                 _delta);
             yield return null;
         }
-        Debug.Log("END EnterAlarm()");
+
+        _alarmSound.volume = _targetVolume;
     }
 
     private IEnumerator ExitAlarm()
     {
-        Debug.Log("ExitAlarm()");
-        _runningTime = 0;
-
-        while (_runningTime <= _duration)
+        while (Math.Abs(_alarmSound.volume - _targetVolume) > 0.001f)
         {
-            _runningTime += Time.deltaTime;
-            float _delta = _runningTime / _duration;
-            _alarmSound.volume = Mathf.MoveTowards(_targetVolume, _startVolume,
+            _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, _targetVolume,
                 _delta);
             yield return null;
         }
 
-        if (_alarmSound.isPlaying)
-        {
-            _alarmSound.Stop();
-        }
-        Debug.Log("END ExitAlarm()");
+        _alarmSound.volume = _targetVolume;
+
+        if (_alarmSound.isPlaying) _alarmSound.Stop();
     }
-   
 }
