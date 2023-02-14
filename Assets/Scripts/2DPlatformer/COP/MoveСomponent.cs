@@ -6,9 +6,9 @@ namespace _2DPlatformer
     {
         // логика взаимодействия с ядром
 
-        [SerializeField] private Vector3EventReceiver _moveReceiver;
+        [SerializeField] private Vector2EventReceiver _moveReceiver;
 
-        public void Move(Vector3 vector)
+        public void Move(Vector2 vector)
         {
             _moveReceiver.Call(vector);
         }

@@ -7,7 +7,7 @@ namespace _2DPlatformer
         IStartGameListener,
         IFinishGameListener
     {
-        public event Action<Vector3> OnMove;
+        public event Action<Vector2> OnMove;
 
         private void Awake()
         {
@@ -21,15 +21,15 @@ namespace _2DPlatformer
 
         private void HandleKeyboard()
         {
-            if (Input.GetKey(KeyCode.W))
-            {
-                this.Move(Vector3.forward);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                this.Move(Vector3.back);
-            }
-            else if (Input.GetKey(KeyCode.A))
+            // if (Input.GetKey(KeyCode.W))
+            // {
+            //     this.Move(Vector3.forward);
+            // }
+            // else if (Input.GetKey(KeyCode.S))
+            // {
+            //     this.Move(Vector3.back);
+            //}
+            if (Input.GetKey(KeyCode.A))
             {
                 this.Move(Vector3.left);
             }
@@ -39,7 +39,7 @@ namespace _2DPlatformer
             }
         }
 
-        private void Move(Vector3 direction)
+        private void Move(Vector2 direction)
         {
             this.OnMove?.Invoke(direction);
         }

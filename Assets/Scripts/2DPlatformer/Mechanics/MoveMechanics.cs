@@ -4,7 +4,7 @@ namespace _2DPlatformer
 {
     public class MoveMechanics : MonoBehaviour
     {
-        [SerializeField] private Vector3EventReceiver _moveReceiver;
+        [SerializeField] private Vector2EventReceiver _moveReceiver;
         [SerializeField] private TransformEngine _transformEngine;
         [SerializeField] private int _speed;
 
@@ -18,7 +18,7 @@ namespace _2DPlatformer
             _moveReceiver.OnEvent -= OnMove;
         }
 
-        private void OnMove(Vector3 direction)
+        private void OnMove(Vector2 direction)
         {
             _transformEngine.AddPosition(direction * _speed);
         }

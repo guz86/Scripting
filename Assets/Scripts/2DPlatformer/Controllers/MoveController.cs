@@ -28,7 +28,7 @@ namespace _2DPlatformer
             _input.OnMove -= OnMove;
         }
   
-        private void OnMove(Vector3 direction)
+        private void OnMove(Vector2 direction)
         {
             var velocity = direction * Time.deltaTime;
             _moveInDirectionComponent.Move(velocity);
